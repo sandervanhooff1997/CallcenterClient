@@ -41,9 +41,8 @@ export default {
   data() {
     return {
       valid: true,
-      title: "Preliminary report",
-      email: "",
-      password: "",
+      email: "test1@test.com",
+      password: "123",
       rules: {
         required: value => !!value || "Required.",
         email: value => {
@@ -53,6 +52,21 @@ export default {
       }
     };
   },
+  computed: {
+    user() {
+      return this.$store.getters.user;
+    }
+  },
+  watch: {
+    user(val) {
+      // successfull login
+      if (val) {
+        this.$router.push({
+          name: "home"
+        });
+      }
+    }
+  },
   methods: {
     login() {
       if (this.valid) {
@@ -61,8 +75,7 @@ export default {
             email: this.email,
             password: this.password
           })
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
+          .catch(err => console.log("Login error", err));
       }
     }
   }

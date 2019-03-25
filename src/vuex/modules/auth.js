@@ -1,33 +1,64 @@
 import AxiosInstance from '../axios-config'
+import jwtDecode from 'jwt-decode'
 
 export default {
     state: {
-        employee: null
+        user: null
     },
     getters: {
-        employee(state) {
-            return state.employee
+        user(state) {
+            return state.user
         }
     },
     mutations: {
-        setEmployee(state, employee) {
-            state.employee = employee
+        setUser(state, user) {
+            state.user = user
         }
     },
     actions: {
-        login({ mutations, dispatch }, { email, password }) {
+        login(context, { email, password }) {
             return new Promise((resolve, reject) => {
                 if (!email || !password)
                     reject(false)
 
-                dispatch('setLoading', true)
+                context.dispatch('setLoading', true)
                 AxiosInstance.post('auth/login', {
                     email,
                     password
                 })
-                    .then(res => resolve(res))
+                    .then(res => {
+                        let token = res.data
+                        console.log("login API call response", res)
+                        if (!token)
+                            reject()
+
+                        try {
+                            let user = jwtDecode(token)
+                            // decode JWT user data
+                            console.log("Decoded JWT", user)
+
+                            if (user.id && user.email) {
+                                // save to localstorage
+                                localStorage.token = token
+
+                                // setup auth header
+                                AxiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+                                context.commit("setUser", {
+                                    id: user.id,
+                                    email: user.email
+                                })
+
+                                resolve()
+                            }
+                        } catch (err) {
+                            localStorage.token = null
+                            delete AxiosInstance.defaults.headers.common['Authorization']
+                            reject()
+                        }
+                    })
                     .catch(err => reject(err))
-                    .finally(() => dispatch('setLoading', false))
+                    .finally(() => context.dispatch('setLoading', false))
             })
         }
     }

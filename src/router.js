@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import store from '@/vuex/store'
 
 Vue.use(Router)
 
@@ -8,7 +7,8 @@ const router = new Router({
   routes: [
     {
       path: '/home',
-      name: 'home'
+      name: 'home',
+      component: () => import('./views/home/Welcome.vue')
     },
     {
       path: '/',

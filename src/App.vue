@@ -1,6 +1,12 @@
 <template>
   <v-app id="inspire">
-    <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" fixed app>
+    <v-navigation-drawer
+      v-if="!onLoginPage"
+      v-model="drawer"
+      :clipped="$vuetify.breakpoint.lgAndUp"
+      fixed
+      app
+    >
       <v-list dense>
         <template v-for="item in items">
           <v-layout v-if="item.heading" :key="item.heading" row align-center>
@@ -45,8 +51,8 @@
     </v-navigation-drawer>
     <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="primary" dark app fixed>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <span class="hidden-sm-and-down">{{title}}</span>
+        <v-toolbar-side-icon v-if="!onLoginPage" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+        <span class="font-weight-light">{{title}}</span>
       </v-toolbar-title>
     </v-toolbar>
     <v-content>
@@ -87,8 +93,10 @@ export default {
       }
     ]
   }),
-  props: {
-    source: String
+  computed: {
+    onLoginPage() {
+      return this.$route.name === "login";
+    }
   }
 };
 </script>
