@@ -1,7 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer
-      v-if="!onLoginPage"
+      v-if="user"
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       fixed
@@ -49,11 +49,11 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="primary" dark app fixed>
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <v-toolbar-side-icon v-if="!onLoginPage" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <span class="font-weight-light">{{title}}</span>
-      </v-toolbar-title>
+    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="primary" dark app>
+      <v-toolbar-side-icon v-if="user" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title class="font-weight-light">{{title}}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <user-menu v-if="user"></user-menu>
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
@@ -94,8 +94,22 @@ export default {
     ]
   }),
   computed: {
-    onLoginPage() {
-      return this.$route.name === "login";
+    user() {
+      return this.$store.getters.user;
+    }
+  },
+  watch: {
+    user(val) {
+      // successfull login
+      if (val) {
+        this.$router.push({
+          name: "home"
+        });
+      } else {
+        this.$router.push({
+          name: "login"
+        });
+      }
     }
   }
 };

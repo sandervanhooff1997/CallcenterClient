@@ -16,50 +16,82 @@ export default {
         }
     },
     actions: {
-        login(context, { email, password }) {
+        setAuthorisationHeader({ }, token) {
+            if (token)
+                AxiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
+            else
+                delete AxiosInstance.defaults.headers.common['Authorization']
+        },
+        login(context, payload) {
             return new Promise((resolve, reject) => {
-                if (!email || !password)
+                if (!payload.email || !payload.password)
                     reject(false)
 
                 context.dispatch('setLoading', true)
-                AxiosInstance.post('auth/login', {
-                    email,
-                    password
-                })
+
+                AxiosInstance.post('auth/login', payload)
                     .then(res => {
                         let token = res.data
                         console.log("login API call response", res)
+
                         if (!token)
                             reject()
 
-                        try {
-                            let user = jwtDecode(token)
-                            // decode JWT user data
-                            console.log("Decoded JWT", user)
+                        let success = context.dispatch("setUser", token)
 
-                            if (user.id && user.email) {
-                                // save to localstorage
-                                localStorage.token = token
-
-                                // setup auth header
-                                AxiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`
-
-                                context.commit("setUser", {
-                                    id: user.id,
-                                    email: user.email
-                                })
-
-                                resolve()
-                            }
-                        } catch (err) {
-                            localStorage.token = null
-                            delete AxiosInstance.defaults.headers.common['Authorization']
+                        if (!success)
                             reject()
-                        }
+
+                        resolve()
                     })
-                    .catch(err => reject(err))
+                    .catch(() => reject())
                     .finally(() => context.dispatch('setLoading', false))
             })
+        },
+        setUser(context, token) {
+            if (!token)
+                return false
+
+            try {
+                let user = jwtDecode(token)
+                console.log("Decoded JWT", user)
+
+                if (!user.id || !user.email)
+                    return false
+
+                localStorage.token = token
+
+                // setup auth header
+                context.dispatch("setAuthorisationHeader", token)
+
+                // set vuex state
+                context.commit("setUser", {
+                    id: user.id,
+                    email: user.email
+                })
+
+                return true
+            } catch (err) {
+                console.log("Decode JWT error", err)
+                localStorage.token = null
+                context.dispatch("setAuthorisationHeader", null)
+                return false
+            }
+        },
+        autoLogin(context) {
+            // token found but no user fetched
+            if (localStorage.token && !context.getters.user) {
+                let token = localStorage.token
+                let success = context.dispatch("setUser", token)
+                return success
+            } else {
+                return false
+            }
+        },
+        logout(context) {
+            delete localStorage.token
+            context.dispatch("setAuthorisationHeader", null)
+            context.commit("setUser", null)
         }
     }
 }

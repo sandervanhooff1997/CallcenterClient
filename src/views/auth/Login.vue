@@ -57,16 +57,6 @@ export default {
       return this.$store.getters.user;
     }
   },
-  watch: {
-    user(val) {
-      // successfull login
-      if (val) {
-        this.$router.push({
-          name: "home"
-        });
-      }
-    }
-  },
   methods: {
     login() {
       if (this.valid) {
