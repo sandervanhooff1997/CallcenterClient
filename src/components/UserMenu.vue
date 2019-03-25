@@ -11,7 +11,7 @@
         <v-list-tile avatar>
           <v-list-tile-avatar>
             <!-- <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John"> -->
-            <v-icon x-large>fas fa-user-circle</v-icon>
+            <v-icon x-large color="primary">fas fa-user-circle</v-icon>
           </v-list-tile-avatar>
 
           <v-list-tile-content>
@@ -21,7 +21,7 @@
 
           <v-list-tile-action @click="logout()">
             <v-btn icon>
-              <v-icon>fas fa-sign-out-alt</v-icon>
+              <v-icon color="primary">fas fa-sign-out-alt</v-icon>
             </v-btn>
           </v-list-tile-action>
         </v-list-tile>
