@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire">
+    <messages></messages>
     <v-navigation-drawer
       v-if="user"
       v-model="drawer"

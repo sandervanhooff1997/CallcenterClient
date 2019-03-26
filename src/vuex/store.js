@@ -8,12 +8,13 @@ import ProductModule from './modules/product'
 import SubscriptionModule from './modules/subscription'
 import EmployeeModule from './modules/employee'
 import AuthModule from './modules/auth'
+import MessageModule from './modules/message'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    loading: false
+    loading: false,
   },
   getters: {
     loading(state) {
@@ -36,6 +37,7 @@ export default new Vuex.Store({
     ProductModule,
     SubscriptionModule,
     EmployeeModule,
-    AuthModule
+    AuthModule,
+    MessageModule
   }
 })
