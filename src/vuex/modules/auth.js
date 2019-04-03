@@ -12,6 +12,10 @@ export default {
     },
     mutations: {
         setUser(state, user) {
+            if (user.roles) {
+                user.roles = user.roles.split(",")
+            }
+
             state.user = user
         }
     },
@@ -29,7 +33,7 @@ export default {
 
                 context.dispatch('setLoading', true)
 
-                AxiosInstance.post('auth/login', payload)
+                AxiosInstance.post('authentication/login', payload)
                     .then(res => {
                         let token = res.data
                         console.log("login API call response", res)
@@ -56,7 +60,7 @@ export default {
                 let user = jwtDecode(token)
                 console.log("Decoded JWT", user)
 
-                if (!user.id || !user.email)
+                if (!user.id || !user.email || typeof undefined == user.roles || user.roles == null)
                     return false
 
                 localStorage.token = token
@@ -67,7 +71,8 @@ export default {
                 // set vuex state
                 context.commit("setUser", {
                     id: user.id,
-                    email: user.email
+                    email: user.email,
+                    roles: user.roles
                 })
 
                 return true

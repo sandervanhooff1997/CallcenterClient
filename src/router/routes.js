@@ -1,8 +1,19 @@
+import Welcome from '@/views/home/Welcome.vue'
+import Login from '@/views/auth/Login.vue'
+import Calls from '@/views/call/Calls.vue'
+import Calling from '@/views/call/Calling.vue'
+import Companies from '@/views/company/Companies.vue'
+import Employees from '@/views/employee/Employees.vue'
+import Products from '@/views/product/Products.vue'
+import Subscriptions from '@/views/subscription/Subscriptions.vue'
+import NotFound from '@/views/others/NotFound.vue'
+import Roles from '@/views/auth/Roles.vue'
+
 export default [
     {
         path: '/home',
         name: 'home',
-        component: () => import('@/views/home/Welcome.vue')
+        component: Welcome
     },
     {
         path: '/',
@@ -13,41 +24,46 @@ export default [
     {
         path: '/login',
         name: 'login',
-        component: () => import('@/views/auth/Login.vue')
+        component: Login
     },
     {
         path: '/calls',
         name: 'calls',
-        component: () => import('@/views/call/Calls.vue')
+        component: Calls
     },
     {
         path: '/calling',
         name: 'calling',
-        component: () => import('@/views/call/Calling.vue')
+        component: Calling
     },
     {
         path: '/companies',
         name: 'companies',
-        component: () => import('@/views/company/Companies.vue')
+        component: Companies
     },
     {
         path: '/employees',
         name: 'employees',
-        component: () => import('@/views/employee/Employees.vue')
+        component: Employees
     },
     {
         path: '/products',
         name: 'products',
-        component: () => import('@/views/product/Products.vue')
+        component: Products
     },
     {
         path: '/subscriptions',
         name: 'subscriptions',
-        component: () => import('@/views/subscription/Subscriptions.vue')
+        component: Subscriptions
+    },
+    {
+        path: '/roles',
+        name: 'roles',
+        component: Roles
     },
     {
         path: '*',
         name: 'notfound',
-        component: () => import('@/views/others/NotFound.vue')
+        component: NotFound
     }
 ]

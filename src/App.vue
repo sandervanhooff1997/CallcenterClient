@@ -10,12 +10,9 @@
     >
       <v-list dense>
         <template v-for="item in items">
-          <v-layout v-if="item.heading" :key="item.heading" row align-center>
-            <v-flex xs6>
+          <v-layout v-if="item.heading" v-can="item.roles" :key="item.heading" row align-center>
+            <v-flex xs12>
               <v-subheader v-if="item.heading">{{ item.heading }}</v-subheader>
-            </v-flex>
-            <v-flex xs6 class="text-xs-center">
-              <a href="#!" class="body-2 black--text">EDIT</a>
             </v-flex>
           </v-layout>
           <v-list-group
@@ -41,7 +38,7 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list-group>
-          <v-list-tile v-else :key="item.text" :to="{name: item.to}">
+          <v-list-tile v-else v-can="item.roles" :key="item.text" :to="{name: item.to}">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
@@ -73,25 +70,79 @@ export default {
     drawer: null,
     title: "Callcenter",
     items: [
-      { text: "Home", icon: "fas fa-home", to: "home" },
-      { text: "Start calling", icon: "fas fa-phone", to: "calling" },
       {
-        text: "Admin",
-        icon: "fas fa-angle-up",
-        iconAlt: "fas fa-angle-down",
-        model: false,
-        children: [
-          { text: "Calls", icon: "fas fa-phone", to: "calls" },
-          { text: "Companies", icon: "fas fa-building", to: "companies" },
-          { text: "Employees", icon: "fas fa-users", to: "employees" },
-          { text: "Products", icon: "fas fa-shopping-cart", to: "products" },
-          {
-            text: "Subscriptions",
-            icon: "fas fa-address-book",
-            to: "subscriptions"
-          }
-        ]
+        heading: "Callcenter"
+      },
+      {
+        text: "Home",
+        icon: "fas fa-home",
+        to: "home"
+      },
+      {
+        text: "Start calling",
+        icon: "fas fa-phone",
+        to: "calling"
+      },
+      {
+        heading: "Supervisor",
+        roles: ["supervisor", "admin"]
+      },
+      {
+        text: "Calls",
+        icon: "fas fa-phone",
+        to: "calls",
+        roles: ["supervisor", "admin"]
+      },
+      {
+        text: "Companies",
+        icon: "fas fa-building",
+        to: "companies",
+        roles: ["supervisor", "admin"]
+      },
+      {
+        text: "Employees",
+        icon: "fas fa-users",
+        to: "employees",
+        roles: ["supervisor", "admin"]
+      },
+      {
+        text: "Products",
+        icon: "fas fa-shopping-cart",
+        to: "products",
+        roles: ["supervisor", "admin"]
+      },
+      {
+        text: "Subscriptions",
+        icon: "fas fa-address-book",
+        to: "subscriptions",
+        roles: ["supervisor", "admin"]
+      },
+      {
+        heading: "Admin",
+        roles: ["admin"]
+      },
+      {
+        text: "Roles",
+        icon: "fas fa-user-tag",
+        to: "roles",
+        roles: ["admin"]
       }
+      // {
+      //   text: "Supervisor",
+      //   icon: "fas fa-angle-up",
+      //   iconAlt: "fas fa-angle-down",
+      //   model: false,
+      //   roles: ["supervisor", "admin"],
+      //   children: []
+      // },
+      // {
+      //   text: "Admin",
+      //   icon: "fas fa-angle-up",
+      //   iconAlt: "fas fa-angle-down",
+      //   model: false,
+      //   roles: ["admin"],
+      //   children: []
+      // }
     ]
   }),
   computed: {
