@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import AxiosInstance from './axios-config'
 
 import CallModule from './modules/call'
 import CompanyModule from './modules/company'

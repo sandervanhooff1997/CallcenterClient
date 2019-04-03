@@ -39,6 +39,15 @@ export default {
                     .catch(err => reject(err))
                     .finally(() => dispatch('setLoading', false))
             })
+        },
+        getEmployees({ dispatch }) {
+            return new Promise((resolve, reject) => {
+                dispatch('setLoading', true)
+                AxiosInstance.get(`employee`)
+                    .then(res => resolve(res.data))
+                    .catch(err => reject(err))
+                    .finally(() => dispatch('setLoading', false))
+            })
         }
     }
 }

@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire">
+    <loader v-if="loading"></loader>
     <messages></messages>
     <v-navigation-drawer
       v-if="user"
@@ -148,6 +149,9 @@ export default {
   computed: {
     user() {
       return this.$store.getters.user;
+    },
+    loading() {
+      return this.$store.getters.loading;
     }
   },
   watch: {

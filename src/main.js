@@ -7,11 +7,15 @@ import './registerServiceWorker'
 import './directives'
 import UserMenu from '@/components/UserMenu'
 import Messages from '@/components/Messages'
+import Loader from '@/components/CLoader'
+import Employee from '@/components/Employee'
 
 Vue.config.productionTip = false
 
 Vue.component("user-menu", UserMenu)
 Vue.component("messages", Messages)
+Vue.component("loader", Loader)
+Vue.component("employee", Employee)
 
 
 new Vue({
