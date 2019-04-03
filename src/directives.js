@@ -4,11 +4,13 @@ import store from './vuex/store'
 Vue.directive('can', function (el, binding, vnode) {
     var roles = binding.value;
 
-    if (!roles || !roles.length) {
+    if (!roles || !roles.length)
         return;
-    }
 
     var user = store.getters.user;
+    if (!user)
+        return;
+
     var hasRole = false;
 
     roles.forEach(role => {

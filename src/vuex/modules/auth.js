@@ -12,7 +12,7 @@ export default {
     },
     mutations: {
         setUser(state, user) {
-            if (user.roles) {
+            if (user && user.roles) {
                 user.roles = user.roles.split(",")
             }
 
