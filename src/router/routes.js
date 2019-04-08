@@ -1,4 +1,4 @@
-import Welcome from '@/views/home/Welcome.vue'
+import Dashboard from '@/views/home/Dashboard.vue'
 import Login from '@/views/auth/Login.vue'
 import Calls from '@/views/call/Calls.vue'
 import Calling from '@/views/call/Calling.vue'
@@ -13,7 +13,7 @@ export default [
     {
         path: '/home',
         name: 'home',
-        component: Welcome
+        component: Dashboard
     },
     {
         path: '/',

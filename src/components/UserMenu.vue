@@ -1,9 +1,16 @@
 <template>
   <v-menu v-if="user" v-model="menu" :close-on-content-click="false" :nudge-width="200" offset-x>
     <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on">
-        <v-icon>fas fa-user-circle</v-icon>
-      </v-btn>
+      <v-list-tile v-on="on" avatar>
+        <v-list-tile-avatar>
+          <v-icon x-large color="primary">fas fa-user-circle</v-icon>
+        </v-list-tile-avatar>
+
+        <v-list-tile-content>
+          <v-list-tile-title>{{user.email}}</v-list-tile-title>
+          <v-list-tile-sub-title class="text-truncate">{{user.roles | commaSeperated}}</v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
     </template>
 
     <v-card>
@@ -16,7 +23,7 @@
 
           <v-list-tile-content>
             <v-list-tile-title>{{user.email}}</v-list-tile-title>
-            <v-list-tile-sub-title>Employee</v-list-tile-sub-title>
+            <v-list-tile-sub-title>{{user.roles | commaSeperated}}</v-list-tile-sub-title>
           </v-list-tile-content>
 
           <v-list-tile-action @click="logout()">

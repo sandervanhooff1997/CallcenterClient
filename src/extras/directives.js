@@ -1,15 +1,18 @@
 import Vue from 'vue'
-import store from './vuex/store'
+import store from '@/vuex/store'
 
 Vue.directive('can', function (el, binding, vnode) {
     var roles = binding.value;
 
-    if (!roles || !roles.length)
+    if (!roles || !Array.isArray(roles) || !roles.length) {
         return;
+    }
 
     var user = store.getters.user;
-    if (!user)
+    if (!user || !Array.isArray(user.roles) || !user.roles.length) {
+        el.style.display = "none";
         return;
+    }
 
     var hasRole = false;
 
@@ -21,6 +24,8 @@ Vue.directive('can', function (el, binding, vnode) {
         });
     });
 
-    if (!hasRole)
+    if (!hasRole) {
         el.style.display = "none";
+        return;
+    }
 })

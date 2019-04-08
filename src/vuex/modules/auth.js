@@ -1,5 +1,6 @@
-import AxiosInstance from '../axios-config'
+import AxiosInstance from '../../router/axios-config'
 import jwtDecode from 'jwt-decode'
+import Fingerprint2 from 'fingerprintjs2'
 
 export default {
     state: {
@@ -28,15 +29,49 @@ export default {
         },
         login(context, payload) {
             return new Promise((resolve, reject) => {
-                if (!payload.email || !payload.password)
+                if (!payload.employee.email || !payload.employee.password)
                     reject(false)
 
                 context.dispatch('setLoading', true)
 
-                AxiosInstance.post('authentication/login', payload)
+                // creates a unique hash of this device
+                Fingerprint2.get(function (components) {
+                    var values = components.map(function (component) { return component.value })
+                    var fingerPrint = Fingerprint2.x64hash128(values.join(''), 31)
+                    payload.fingerPrint = fingerPrint
+
+                    AxiosInstance.post('authentication/login', payload)
+                        .then(res => {
+                            console.log(res)
+                            let token = res.data
+
+                            // if no token, client needs to see code confirmation screen
+                            if (!token)
+                                resolve(true)
+
+                            // else set user from obtained token and skip confirmation screen
+                            let success = context.dispatch("setUser", token)
+
+                            if (!success)
+                                reject()
+
+                            resolve(false)
+                        })
+                        .catch(() => reject())
+                        .finally(() => context.dispatch('setLoading', false))
+                });
+            })
+        },
+        verify(context, payload) {
+            return new Promise((resolve, reject) => {
+                if (!payload.employee.email || !payload.employee.password || !payload.code)
+                    reject(false)
+
+                context.dispatch('setLoading', true)
+
+                AxiosInstance.post('authentication/verify', payload)
                     .then(res => {
                         let token = res.data
-                        console.log("login API call response", res)
 
                         if (!token)
                             reject()
@@ -52,6 +87,7 @@ export default {
                     .finally(() => context.dispatch('setLoading', false))
             })
         },
+
         setUser(context, token) {
             if (!token)
                 return false

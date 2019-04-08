@@ -1,4 +1,4 @@
-import AxiosInstance from '../axios-config'
+import AxiosInstance from '../../router/axios-config'
 
 export default {
     state: {
@@ -44,7 +44,7 @@ export default {
             return new Promise((resolve, reject) => {
                 dispatch('setLoading', true)
                 AxiosInstance.get(`employee`)
-                    .then(res => resolve(res.data))
+                    .then(res => resolve(res))
                     .catch(err => reject(err))
                     .finally(() => dispatch('setLoading', false))
             })

@@ -4,11 +4,13 @@ import App from './App.vue'
 import router from './router/router'
 import store from './vuex/store'
 import './registerServiceWorker'
-import './directives'
+import './extras/directives'
+import './extras/filters'
 import UserMenu from '@/components/UserMenu'
 import Messages from '@/components/Messages'
 import Loader from '@/components/CLoader'
 import Employee from '@/components/Employee'
+import './styles/main.styl'
 
 Vue.config.productionTip = false
 

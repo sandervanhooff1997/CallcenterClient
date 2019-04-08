@@ -2,14 +2,13 @@
   <v-app id="inspire">
     <loader v-if="loading"></loader>
     <messages></messages>
-    <v-navigation-drawer
-      v-if="user"
-      v-model="drawer"
-      :clipped="$vuetify.breakpoint.lgAndUp"
-      fixed
-      app
-    >
+    <v-btn color="primary" @click="drawer = true" v-if="!drawer" dark fab fixed top left>
+      <v-icon>fas fa-bars</v-icon>
+    </v-btn>
+    <v-navigation-drawer v-if="user" v-model="drawer" fixed app>
       <v-list dense>
+        <user-menu v-if="user"></user-menu>
+        <v-divider class="pb-2"></v-divider>
         <template v-for="item in items">
           <v-layout v-if="item.heading" v-can="item.roles" :key="item.heading" row align-center>
             <v-flex xs12>
@@ -48,12 +47,12 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="primary" dark app>
+    <!-- <v-toolbar flat :clipped-left="$vuetify.breakpoint.lgAndUp" color="primary" dark app>
       <v-toolbar-side-icon v-if="user" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title class="font-weight-light">{{title}}</v-toolbar-title>
       <v-spacer></v-spacer>
       <user-menu v-if="user"></user-menu>
-    </v-toolbar>
+    </v-toolbar>-->
     <v-content>
       <v-container fluid fill-height>
         <v-layout justify-center align-center>
@@ -67,7 +66,6 @@
 <script>
 export default {
   data: () => ({
-    dialog: false,
     drawer: null,
     title: "Callcenter",
     items: [
@@ -78,11 +76,6 @@ export default {
         text: "Home",
         icon: "fas fa-home",
         to: "home"
-      },
-      {
-        text: "Start calling",
-        icon: "fas fa-phone",
-        to: "calling"
       },
       {
         heading: "Supervisor",
@@ -170,3 +163,6 @@ export default {
   }
 };
 </script>
+
+<style>
+</style>
