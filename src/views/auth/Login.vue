@@ -50,7 +50,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
-          color="primary"
+          color="success"
           class="elevation-0"
           :disabled="!valid"
           v-if="!verify"
