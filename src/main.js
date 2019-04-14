@@ -9,6 +9,7 @@ import './extras/filters'
 import UserMenu from '@/components/UserMenu'
 import Messages from '@/components/Messages'
 import Loader from '@/components/CLoader'
+import Chat from '@/components/Chat'
 import Employee from '@/components/Employee'
 import './styles/main.styl'
 
@@ -18,6 +19,7 @@ Vue.component("user-menu", UserMenu)
 Vue.component("messages", Messages)
 Vue.component("loader", Loader)
 Vue.component("employee", Employee)
+Vue.component("chat", Chat)
 
 
 new Vue({

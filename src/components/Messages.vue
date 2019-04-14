@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-snackbar
-      flat
       v-for="(message, index) in messages"
       :key="index + message"
       v-model="message.on"

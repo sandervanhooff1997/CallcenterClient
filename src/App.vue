@@ -2,7 +2,17 @@
   <v-app id="inspire">
     <loader v-if="loading"></loader>
     <messages></messages>
-    <v-btn color="primary" @click="drawer = true" v-if="!drawer" dark fab fixed top left>
+    <v-btn
+      color="primary"
+      @click="drawer = true"
+      class="elevation-0"
+      v-if="!drawer && user"
+      dark
+      fab
+      fixed
+      top
+      left
+    >
       <v-icon>fas fa-bars</v-icon>
     </v-btn>
     <v-navigation-drawer v-if="user" v-model="drawer" fixed app>
